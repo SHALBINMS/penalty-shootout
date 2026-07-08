@@ -1,0 +1,618 @@
+/* ==========================================================================
+   PENALTY SHOOTOUT — "Floodlit Final" theme
+   Palette:
+     --night      #071a12  (pitch-black night sky)
+     --pitch      #0e3d24  (deep turf shadow)
+     --turf       #1f8c4b  (turf mid green)
+     --turf-light #2fb865  (turf highlight / mow stripe)
+     --chalk      #f4f7ef  (line-marking white)
+     --amber      #ffb400  (scoreboard LED / floodlight accent)
+     --crimson    #e5484d  (saved / miss)
+     --gold       #ffd166  (goal / win)
+   Type:
+     Display  — 'Bebas Neue'   (stadium signage)
+     Body     — 'Inter'        (UI text)
+     Mono/LED — 'Space Mono'   (scoreboard digits, ticker)
+   ========================================================================== */
+
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap");
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Inter", Helvetica, sans-serif;
+  background:
+    radial-gradient(ellipse 900px 500px at 15% -10%, rgba(255, 180, 0, 0.14), transparent 60%),
+    radial-gradient(ellipse 900px 500px at 85% -10%, rgba(255, 180, 0, 0.14), transparent 60%),
+    linear-gradient(180deg, #071a12 0%, #0b2417 55%, #0e3d24 100%);
+  min-height: 100vh;
+  color: #f4f7ef;
+}
+
+/* ===========================
+   Main Container
+=========================== */
+
+.game-container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 48px 24px 64px;
+  text-align: center;
+  position: relative;
+}
+
+/* ===========================
+   Title
+=========================== */
+
+.eyebrow {
+  display: inline-block;
+  font-family: "Space Mono", monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: #ffb400;
+  background: rgba(255, 180, 0, 0.1);
+  border: 1px solid rgba(255, 180, 0, 0.35);
+  padding: 6px 16px;
+  border-radius: 999px;
+  margin-bottom: 18px;
+}
+
+.title {
+  font-family: "Bebas Neue", "Arial Narrow", sans-serif;
+  font-size: 3.6rem;
+  letter-spacing: 0.03em;
+  line-height: 1;
+  margin: 0 0 34px;
+  color: #f4f7ef;
+  text-shadow:
+    0 0 18px rgba(255, 180, 0, 0.55),
+    0 0 46px rgba(255, 180, 0, 0.25);
+}
+
+/* ===========================
+   Scoreboard (Jumbotron)
+=========================== */
+
+.scoreboard {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: 0;
+  margin-bottom: 28px;
+  background: #0a0a0a;
+  border: 1px solid #262626;
+  border-radius: 14px;
+  padding: 4px;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.04),
+    0 10px 30px rgba(0, 0, 0, 0.45);
+}
+
+.score-card {
+  flex: 1;
+  background: linear-gradient(180deg, #101010, #0a0a0a);
+  border-radius: 10px;
+  padding: 18px 12px;
+  position: relative;
+}
+
+.score-card + .score-card {
+  border-left: 1px dashed #333;
+}
+
+.score-card h3 {
+  margin: 0 0 8px;
+  font-family: "Space Mono", monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #8a8a8a;
+}
+
+.score-card p {
+  font-family: "Space Mono", monospace;
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: #ffb400;
+  margin: 0;
+  text-shadow: 0 0 12px rgba(255, 180, 0, 0.6);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ===========================
+   Football Field
+=========================== */
+
+.field {
+  position: relative;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      #1f8c4b 0px,
+      #1f8c4b 40px,
+      #2fb865 40px,
+      #2fb865 80px
+    );
+  border-radius: 18px;
+  padding: 36px 40px 44px;
+  margin-bottom: 28px;
+  overflow: hidden;
+  box-shadow:
+    inset 0 0 0 2px rgba(244, 247, 239, 0.15),
+    0 18px 40px rgba(0, 0, 0, 0.4);
+}
+
+.field::before {
+  /* floodlight wash across the pitch */
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 320px 200px at 20% 0%, rgba(255, 255, 255, 0.22), transparent 65%),
+    radial-gradient(ellipse 320px 200px at 80% 0%, rgba(255, 255, 255, 0.22), transparent 65%);
+  pointer-events: none;
+}
+
+.goal {
+  position: relative;
+  font-size: 2.6rem;
+  margin-bottom: 18px;
+  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.35));
+}
+
+.goal.scored {
+  animation: goalFlash 0.5s ease-out;
+}
+
+@keyframes goalFlash {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.18);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.net-ripple {
+  position: absolute;
+  left: 50%;
+  bottom: -8px;
+  width: 46px;
+  height: 46px;
+  margin-left: -23px;
+  border: 3px solid rgba(244, 247, 239, 0.9);
+  border-radius: 50%;
+  opacity: 0;
+  transform: translate(var(--gx, 0px), 0) scale(0.3);
+  animation: netRipple 0.55s ease-out;
+  animation-delay: 0.72s;
+  pointer-events: none;
+}
+
+@keyframes netRipple {
+  0% {
+    opacity: 0.9;
+    transform: translate(var(--gx, 0px), 0) scale(0.3);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--gx, 0px), 0) scale(2.6);
+  }
+}
+
+.penalty-area {
+  position: relative;
+  width: 320px;
+  height: 260px;
+  margin: auto;
+  border: 3px solid rgba(244, 247, 239, 0.85);
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+  background: rgba(244, 247, 239, 0.04);
+}
+
+.penalty-area::before {
+  /* penalty spot */
+  content: "";
+  position: absolute;
+  bottom: 34px;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  margin-left: -4px;
+  border-radius: 50%;
+  background: rgba(244, 247, 239, 0.85);
+}
+
+.goalkeeper {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 3.6rem;
+  filter: drop-shadow(0 8px 8px rgba(0, 0, 0, 0.4));
+  z-index: 2;
+}
+
+.goalkeeper.diving {
+  animation: keeperDive 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes keeperDive {
+  0% {
+    transform: translate(-50%, 0) rotate(0deg) scale(1);
+  }
+  45% {
+    transform: translate(calc(-50% + var(--x) * 0.6), -6px) rotate(calc(var(--rot) * 0.6)) scale(1.05);
+  }
+  100% {
+    transform: translate(calc(-50% + var(--x)), -10px) rotate(var(--rot)) scale(1.08);
+  }
+}
+
+.ball-wrap {
+  position: absolute;
+  bottom: 14px;
+  left: 50%;
+  width: 60px;
+  height: 60px;
+  margin-left: -30px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 3;
+}
+
+.ball-wrap::after {
+  /* contact shadow, keeps the ball feeling grounded */
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -6px;
+  width: 34px;
+  height: 10px;
+  margin-left: -17px;
+  background: rgba(0, 0, 0, 0.35);
+  border-radius: 50%;
+  filter: blur(2px);
+}
+
+.ball {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translate(-50%, 0);
+  font-size: 2.4rem;
+  filter: drop-shadow(0 6px 6px rgba(0, 0, 0, 0.4));
+}
+
+.ball.flying-goal {
+  animation: ballFlyGoal 0.95s cubic-bezier(0.25, 0.65, 0.35, 1) forwards;
+}
+
+.ball.flying-save {
+  animation: ballFlySave 0.85s cubic-bezier(0.3, 0.6, 0.4, 1) forwards;
+}
+
+@keyframes ballFlyGoal {
+  0% {
+    transform: translate(-50%, 0) scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  60% {
+    transform: translate(calc(-50% + var(--x) * 0.85), -170px) scale(0.8) rotate(-220deg);
+    opacity: 1;
+  }
+  85% {
+    transform: translate(calc(-50% + var(--x)), -215px) scale(0.55) rotate(-320deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(calc(-50% + var(--x) * 1.05), -240px) scale(0.3) rotate(-380deg);
+    opacity: 0;
+  }
+}
+
+@keyframes ballFlySave {
+  0% {
+    transform: translate(-50%, 0) scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  58% {
+    transform: translate(calc(-50% + var(--x) * 0.9), -165px) scale(0.82) rotate(-210deg);
+    opacity: 1;
+  }
+  66% {
+    /* contact with the glove */
+    transform: translate(calc(-50% + var(--x)), -190px) scale(0.78) rotate(-235deg);
+    opacity: 1;
+  }
+  80% {
+    /* parried away */
+    transform: translate(calc(-50% + var(--x) * 1.4), -140px) scale(0.65) rotate(80deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(calc(-50% + var(--x) * 1.7), -50px) scale(0.45) rotate(180deg);
+    opacity: 0;
+  }
+}
+
+.impact-burst {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 46px;
+  height: 46px;
+  margin-left: -23px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0) 70%);
+  transform: translate(var(--x), -190px) scale(0.2);
+  opacity: 0;
+  animation: burst 0.45s ease-out;
+  animation-delay: 0.52s;
+  pointer-events: none;
+  z-index: 4;
+}
+
+@keyframes burst {
+  0% {
+    opacity: 0;
+    transform: translate(var(--x), -190px) scale(0.2);
+  }
+  35% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--x), -190px) scale(1.9);
+  }
+}
+
+/* ===========================
+   Controls
+=========================== */
+
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.controls button {
+  flex: 1;
+  max-width: 150px;
+  padding: 14px 10px;
+  border: 1px solid rgba(244, 247, 239, 0.15);
+  border-radius: 10px;
+  background: linear-gradient(180deg, #16321f, #0e2216);
+  color: #f4f7ef;
+  cursor: pointer;
+  font-family: "Inter", sans-serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  transition: 0.2s ease;
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.35);
+}
+
+.controls button:hover:not(:disabled) {
+  background: linear-gradient(180deg, #1f8c4b, #17692f);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 rgba(0, 0, 0, 0.35);
+  border-color: rgba(255, 180, 0, 0.5);
+}
+
+.controls button:active:not(:disabled) {
+  transform: translateY(1px);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.35);
+}
+
+.controls button:disabled {
+  background: #23262b;
+  color: #6b6f76;
+  border-color: transparent;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* ===========================
+   Result Card
+=========================== */
+
+.result-card {
+  background: #0f2318;
+  border: 1px solid rgba(244, 247, 239, 0.1);
+  border-radius: 14px;
+  padding: 20px 24px;
+  text-align: left;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+  border-left: 6px solid #556;
+  animation: slideIn 0.35s ease;
+}
+
+.result-card h3 {
+  margin: 0 0 8px;
+  font-family: "Space Mono", monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #8fbf9f;
+}
+
+.result-card p {
+  margin: 6px 0;
+  font-size: 1.05rem;
+  color: #f4f7ef;
+}
+
+.result-card p:first-of-type {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 1.7rem;
+  letter-spacing: 0.02em;
+}
+
+.result-card.goal {
+  border-left-color: #ffd166;
+  background: linear-gradient(180deg, rgba(255, 209, 102, 0.08), #0f2318 60%);
+}
+
+.result-card.saved {
+  border-left-color: #e5484d;
+  background: linear-gradient(180deg, rgba(229, 72, 77, 0.08), #0f2318 60%);
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===========================
+   Shot History (Match Ticker)
+=========================== */
+
+.history-card {
+  background: #0f2318;
+  border: 1px solid rgba(244, 247, 239, 0.1);
+  margin-top: 22px;
+  padding: 18px 22px;
+  border-radius: 14px;
+  text-align: left;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
+}
+
+.history-card h3 {
+  margin: 0 0 12px;
+  font-family: "Space Mono", monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #8fbf9f;
+}
+
+.history-card p {
+  color: #9aa79f;
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.history-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.history-card li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: rgba(244, 247, 239, 0.03);
+  font-family: "Space Mono", monospace;
+  font-size: 0.85rem;
+  color: #dfe7e1;
+}
+
+.history-card li[data-outcome="goal"] {
+  border-left: 3px solid #ffd166;
+}
+
+.history-card li[data-outcome="saved"] {
+  border-left: 3px solid #e5484d;
+}
+
+/* ===========================
+   Game Over
+=========================== */
+
+.game-over {
+  margin-top: 28px;
+  padding: 28px;
+  background: linear-gradient(180deg, rgba(255, 180, 0, 0.1), transparent);
+  border: 1px solid rgba(255, 180, 0, 0.25);
+  border-radius: 16px;
+  animation: slideIn 0.4s ease;
+}
+
+.game-over h2 {
+  margin: 0 0 6px;
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 2.2rem;
+  letter-spacing: 0.03em;
+  color: #ffd166;
+  text-shadow: 0 0 18px rgba(255, 209, 102, 0.45);
+}
+
+.game-over p {
+  margin: 0 0 16px;
+  color: #cfd8d2;
+  font-size: 0.95rem;
+}
+
+.game-over button {
+  padding: 13px 28px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(180deg, #ffc94a, #ffb400);
+  color: #241a00;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  transition: 0.2s ease;
+  box-shadow: 0 4px 0 rgba(150, 100, 0, 0.5);
+}
+
+.game-over button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 rgba(150, 100, 0, 0.5);
+}
+
+.game-over button:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 0 rgba(150, 100, 0, 0.5);
+}
+
+/* ===========================
+   Responsive
+=========================== */
+
+@media (max-width: 480px) {
+  .title {
+    font-size: 2.5rem;
+  }
+
+  .penalty-area {
+    width: 260px;
+    height: 220px;
+  }
+
+  .controls {
+    gap: 10px;
+  }
+
+  .controls button {
+    padding: 12px 6px;
+    font-size: 0.85rem;
+  }
+}
