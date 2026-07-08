@@ -4,13 +4,15 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 
+const app = express();
+
 const errorHandler = require("./middleware/errorMiddleware");
 
 const studentRoutes = require("./routes/studentRoutes");
 
 const userRoutes = require("./routes/userRoutes");
 
-const app = express();
+const scoreRoutes = require("./routes/scoreRoutes");
 
 app.use(cors());
 
@@ -23,6 +25,8 @@ app.use("/uploads", express.static("uploads"));
 app.use("/students", studentRoutes);
 
 app.use("/api/users", userRoutes);
+
+app.use("/api/scores", scoreRoutes);
 
 app.use(errorHandler);
 
