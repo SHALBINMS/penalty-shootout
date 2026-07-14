@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import "../styles/Game.css";
 
 function Game() {
@@ -52,6 +53,35 @@ function Game() {
     setHistory([]);
   };
 
+ const saveScore = async () => {
+   try {
+     const token = localStorage.getItem("token");
+
+     await axios.post(
+       "http://localhost:5000/api/scores",
+       {
+         score,
+         attempts,
+       },
+       {
+         headers: {
+           Authorization: `Bearer ${token}`,
+         },
+       },
+     );
+
+     console.log("✅ Score saved successfully");
+   } catch (error) {
+     console.error("❌ Failed to save score", error);
+   }
+ };
+
+ useEffect(() => {
+   if (attempts === 5) {
+     saveScore();
+   }
+ }, [attempts]);
+ 
   return (
     <div className="game-container">
       <span className="eyebrow">Sudden Death · Best of 5</span>
