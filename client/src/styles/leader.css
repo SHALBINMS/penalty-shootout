@@ -1,0 +1,119 @@
+.ranking-page,
+.stats-container {
+  width: min(100% - 32px, 880px);
+  min-height: calc(100vh - 64px);
+  margin: 0 auto;
+  padding: 36px 0 64px;
+}
+
+.ranking-page header,
+.stats-container {
+  text-align: center;
+}
+
+.ranking-page header span,
+.stats-container > span {
+  color: #16805c;
+  font-family: "Roboto Mono", monospace;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+}
+
+.ranking-page h1,
+.stats-container h1 {
+  margin: 10px 0;
+  color: #172033;
+  font-size: clamp(2rem, 7vw, 3.5rem);
+}
+
+.ranking-page h1 b {
+  color: #16805c;
+}
+
+.ranking-page header p,
+.stats-container > p {
+  margin: 0 auto 30px;
+  color: #64748b;
+  line-height: 1.6;
+}
+
+.ranking-list {
+  overflow: hidden;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+}
+
+.rank-card {
+  display: grid;
+  grid-template-columns: 34px 36px minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+  padding: 14px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.rank-card:last-child {
+  border-bottom: 0;
+}
+
+.rank-number {
+  color: #64748b;
+  font-weight: 700;
+}
+
+.top-1 .rank-number { color: #b7791f; }
+.top-2 .rank-number { color: #64748b; }
+.top-3 .rank-number { color: #a15c32; }
+
+.rank-avatar {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  color: #166534;
+  background: #dcfce7;
+  border-radius: 50%;
+  font-weight: 700;
+}
+
+.rank-card b,
+.rank-card small {
+  display: block;
+}
+
+.rank-card b {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rank-card small {
+  margin-top: 3px;
+  color: #64748b;
+  font-size: 0.75rem;
+}
+
+.rank-card strong {
+  color: #16805c;
+  font-size: 1.25rem;
+}
+
+.rank-card strong i {
+  color: #94a3b8;
+  font-size: 0.8rem;
+  font-style: normal;
+}
+
+.rank-skeleton,
+.rank-empty {
+  padding: 42px 20px;
+  color: #64748b;
+  text-align: center;
+}
+
+@media (min-width: 720px) {
+  .ranking-page,
+  .stats-container { width: min(100% - 64px, 880px); padding-top: 52px; }
+  .rank-card { grid-template-columns: 52px 42px minmax(0, 1fr) auto; padding: 17px 20px; }
+}

@@ -16,7 +16,7 @@ const scoreSchema = new mongoose.Schema(
     attempts: {
       type: Number,
       required: true,
-      default: 5,
+      default: 1,
     },
   },
   {

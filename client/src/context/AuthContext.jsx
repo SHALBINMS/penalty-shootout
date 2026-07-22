@@ -1,11 +1,17 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useState } from "react";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  // Read storage once during initialization so protected UI does not render a
+  // logged-out state before the persisted session is restored.
+  const [user, setUser] = useState(() => {
+    const token = localStorage.getItem("token");
 
-  // Login
+    return token ? { token } : null;
+  });
+
+  // Store the token in both state and storage so the session survives a full page refresh.
   const login = (token) => {
     localStorage.setItem("token", token);
 
@@ -14,22 +20,11 @@ export const AuthProvider = ({ children }) => {
     });
   };
 
-  // Logout
+  // Remove both copies to prevent stale credentials from recreating a session.
   const logout = () => {
     localStorage.removeItem("token");
     setUser(null);
   };
-
-  // Keep user logged in after refresh
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-
-    if (token) {
-      setUser({
-        token,
-      });
-    }
-  }, []);
 
   return (
     <AuthContext.Provider

@@ -1,11 +1,36 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@500&display=swap");
+
+/* Foundation */
+:root {
+  color: #092452;
+  background: #f1f7ff;
+  font-family: Inter, Arial, sans-serif;
+  font-synthesis: none;
+}
+
 * {
-  margin: 0;
-  padding: 0;
   box-sizing: border-box;
 }
 
 body {
-  font-family: Arial, sans-serif;
-  background: #0f172a;
-  color: white;
+  min-width: 320px;
+  margin: 0;
+  background: radial-gradient(circle at 10% 0%, #dceeff 0, transparent 28%), #f1f7ff;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+  outline: 3px solid #93c5fd;
+  outline-offset: 2px;
 }

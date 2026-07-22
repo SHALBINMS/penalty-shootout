@@ -32,15 +32,15 @@ const createStudent = async (req, res, next) => {
 const getStudentById = async (req, res, next) => {
   try {
     const student = await Student.findById(req.params.id);
-    
-     if (!student) {
-       res.status(404);
-       throw new Error("Student not found");
-     }
+
+    if (!student) {
+      res.status(404);
+      throw new Error("Student not found");
+    }
 
     res.json(student);
   } catch (error) {
-   next(error);
+    next(error);
   }
 };
 
@@ -51,15 +51,25 @@ const updateStudent = async (req, res, next) => {
       runValidators: true,
     });
 
+    if (!student) {
+      res.status(404);
+      throw new Error("Student not found");
+    }
+
     res.json(student);
   } catch (error) {
     next(error);
   }
 };
 
-const deleteStudent = async (req, res,next) => {
+const deleteStudent = async (req, res, next) => {
   try {
     const student = await Student.findByIdAndDelete(req.params.id);
+
+    if (!student) {
+      res.status(404);
+      throw new Error("Student not found");
+    }
 
     res.json({
       message: "Student deleted",

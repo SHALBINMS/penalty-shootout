@@ -1,14 +1,18 @@
-const User = require("../models/user");
+const User = require("../models/User");
 
 const admin = async (req, res, next) => {
-  const user = await User.findById(req.user.id);
+  try {
+    const user = await User.findById(req.user.id);
 
-  if (user && user.role === "admin") {
-    next();
-  } else {
-    res.status(403);
+    if (user && user.role === "admin") {
+      next();
+    } else {
+      res.status(403);
 
-    throw new Error("Admin access only");
+      return next(new Error("Admin access only"));
+    }
+  } catch (error) {
+    next(error);
   }
 };
 
