@@ -1,8 +1,9 @@
 /* The shot outcome is intentionally randomized inside a user-triggered handler. */
 /* eslint-disable react-hooks/purity */
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { Ball, Goalkeeper, Player } from "../components/PitchArt";
+import AuthContext from "../context/AuthContext";
 import api from "../services/api";
 import "../styles/game.css";
 
@@ -50,6 +51,7 @@ function Game() {
   // State
   //////////////////////////////////////////////////
 
+  const { user } = useContext(AuthContext);
   const [score, setScore] = useState(0);
   const [attempts, setAttempts] = useState(0);
   const [phase, setPhase] = useState("ready"); // ready | windup | flight
@@ -61,9 +63,7 @@ function Game() {
   const [shotOutcome, setShotOutcome] = useState("READY");
   const [history, setHistory] = useState([]);
   const [streak, setStreak] = useState(0);
-  const [best, setBest] = useState(
-    () => Number(localStorage.getItem("ps_best_streak")) || 0,
-  );
+  const [best, setBest] = useState(0);
   const [roundOver, setRoundOver] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
 
@@ -86,6 +86,17 @@ function Game() {
   //////////////////////////////////////////////////
 
   useEffect(() => () => timers.current.forEach(clearTimeout), []);
+
+  useEffect(() => {
+    if (!user?.token) {
+      setBest(0);
+      localStorage.removeItem("ps_best_streak");
+      return;
+    }
+
+    const savedBest = Number(localStorage.getItem("ps_best_streak")) || 0;
+    setBest(savedBest);
+  }, [user?.token]);
 
   //////////////////////////////////////////////////
   // Small helpers
@@ -198,10 +209,19 @@ function Game() {
       if (goal) {
         setStreak((current) => {
           const next = current + 1;
-          if (next > best) {
-            setBest(next);
-            localStorage.setItem("ps_best_streak", String(next));
+
+          if (user?.token) {
+            setBest((currentBest) => {
+              const nextBest = Math.max(currentBest, next);
+
+              if (nextBest > currentBest) {
+                localStorage.setItem("ps_best_streak", String(nextBest));
+              }
+
+              return nextBest;
+            });
           }
+
           return next;
         });
       } else {
@@ -303,16 +323,20 @@ function Game() {
         <p>
           Accuracy <b>{accuracy}%</b>
         </p>
-        <p className={streak > 1 ? "flame" : ""}>
-          Streak{" "}
-          <b>
-            {streak}
-            {streak > 1 ? " 🔥" : ""}
-          </b>
-        </p>
-        <p>
-          Best <b>{best}</b>
-        </p>
+        {user?.token ? (
+          <>
+            <p className={streak > 1 ? "flame" : ""}>
+              Streak{" "}
+              <b>
+                {streak}
+                {streak > 1 ? " 🔥" : ""}
+              </b>
+            </p>
+            <p>
+              Best <b>{best}</b>
+            </p>
+          </>
+        ) : null}
         <div>
           {Array.from({ length: MAX_HISTORY_DOTS }, (_, index) => {
             const attempt = history[history.length - 1 - index];
@@ -438,9 +462,11 @@ function Game() {
             <p>
               <b>{accuracy}%</b>accuracy
             </p>
-            <p>
-              <b>{best}</b>best streak
-            </p>
+            {user?.token ? (
+              <p>
+                <b>{best}</b>best streak
+              </p>
+            ) : null}
             <p>
               <b>{score >= 4 ? "A" : "B"}</b>grade
             </p>

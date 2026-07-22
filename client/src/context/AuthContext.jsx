@@ -23,6 +23,7 @@ export const AuthProvider = ({ children }) => {
   // Remove both copies to prevent stale credentials from recreating a session.
   const logout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("ps_best_streak");
     setUser(null);
   };
 

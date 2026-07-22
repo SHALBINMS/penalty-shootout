@@ -10,14 +10,19 @@ const studentRoutes = require("./routes/studentRoutes");
 const userRoutes = require("./routes/userRoutes");
 const scoreRoutes = require("./routes/scoreRoutes");
 
+const configuredOrigins = (process.env.CLIENT_URL || "")
+  .split(",")
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+
 const allowedOrigins = [
-  ...(process.env.CLIENT_URL || "http://localhost:5173")
-    .split(",")
-    .map((origin) => origin.trim())
-    .filter(Boolean),
-  "http://localhost:5173",
-  "https://localhost:5173",
-  "https://penalty-shootout-5bhbkg0u4-shalbinms88-8113s-projects.vercel.app",
+  ...new Set([
+    ...configuredOrigins,
+    "http://localhost:5173",
+    "https://localhost:5173",
+    "https://penalty-shootout-5bhbkg0u4-shalbinms88-8113s-projects.vercel.app",
+    "https://penalty-shootout-git-main-shalbinms88-8113s-projects.vercel.app",
+  ]),
 ];
 
 app.use(
@@ -28,11 +33,13 @@ app.use(
         return;
       }
 
-      callback(new Error("Not allowed by CORS"));
+      console.warn("Blocked CORS request from:", origin);
+      callback(null, false);
     },
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
+    optionsSuccessStatus: 204,
   }),
 );
 
