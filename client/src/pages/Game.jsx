@@ -1,9 +1,9 @@
 /* The shot outcome is intentionally randomized inside a user-triggered handler. */
 /* eslint-disable react-hooks/purity */
 import { useEffect, useRef, useState } from "react";
-import axios from "axios";
 import { Link } from "react-router-dom";
 import { Ball, Goalkeeper, Player } from "../components/PitchArt";
+import api from "../services/api";
 import "../styles/game.css";
 
 //////////////////////////////////////////////////
@@ -103,8 +103,8 @@ function Game() {
     setIsSaving(true);
 
     try {
-      await axios.post(
-        "http://localhost:5000/api/scores",
+      await api.post(
+        "/scores",
         {
           score: Number(finalScore),
           attempts: Number(finalAttempts),

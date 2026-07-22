@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
-import axios from "axios";
 import { Link } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
+import api from "../services/api";
 import "../styles/Home.css";
 
 function Home() {
@@ -19,10 +19,10 @@ function Home() {
       try {
         const token = localStorage.getItem("token");
         const [statsResponse, leadersResponse] = await Promise.all([
-          axios.get("http://localhost:5000/api/scores/mystats", {
+          api.get("/scores/mystats", {
             headers: { Authorization: `Bearer ${token}` },
           }),
-          axios.get("http://localhost:5000/api/scores/leaderboard"),
+          api.get("/scores/leaderboard"),
         ]);
 
         if (isMounted) {

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../services/api";
 import "../styles/leader.css";
 
 const MEDAL_FORMS = ["Gold form", "Silver form", "Bronze form"];
@@ -13,8 +13,8 @@ function Leaderboard() {
 
     setIsLoading(true);
 
-    axios
-      .get("http://localhost:5000/api/scores/leaderboard")
+    api
+      .get("/scores/leaderboard")
       .then((response) => {
         if (isMounted) setScores(response.data);
       })

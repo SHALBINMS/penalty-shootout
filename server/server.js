@@ -10,9 +10,14 @@ const studentRoutes = require("./routes/studentRoutes");
 const userRoutes = require("./routes/userRoutes");
 const scoreRoutes = require("./routes/scoreRoutes");
 
+const allowedOrigins = (process.env.CLIENT_URL || "http://localhost:5173")
+  .split(",")
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || "http://localhost:5173",
+    origin: allowedOrigins,
     credentials: true,
   }),
 );
@@ -58,4 +63,8 @@ app.get("/", (req, res) => {
   res.json({
     message: "Backend API Running",
   });
+});
+
+app.get("/health", (req, res) => {
+  res.json({ status: "ok" });
 });

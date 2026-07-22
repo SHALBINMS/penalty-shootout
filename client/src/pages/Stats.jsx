@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../services/api";
 import "../styles/stats.css";
 
 const STAT_CARDS = [
@@ -22,14 +22,11 @@ function Stats() {
 
     const loadStats = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:5000/api/scores/mystats",
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
+        const response = await api.get("/scores/mystats", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-        );
+        });
 
         if (isMounted) {
           setStats(response.data);
